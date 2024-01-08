@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('customer', '0002_alter_customer_created_at'),
     ]
@@ -14,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='customer',
             name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 4, 10, 20, 9, 819318, tzinfo=datetime.timezone.utc), null=True),
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 4, 10, 20, 9, 819318, tzinfo=datetime.timezone.utc), null=True),
         ),
     ]

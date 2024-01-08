@@ -58,12 +58,8 @@ const Edit = (props) => {
 
     // fetch type data and send back to main component
     if (result) {
-      
-      // setShowAlert(true);
-      setValue("name", "");
-      setValue("description", "");
-      toast.success("Record has been updated successfully.")
-      router.push("/sale/category")
+      toast.success("Record has been updated successfully.");
+      router.push("/sale/category");
     }
   };
   return (

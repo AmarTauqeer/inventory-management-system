@@ -13,197 +13,123 @@ from django.db import connection
 from .models import SaleMaster, SaleDetail
 from .serializers import SaleMasterSerializer, SaleDetailSerializer
 
+from auth.check_authentication import CheckAuthentication
+
 
 class SaleMasterCreateView(APIView):
 
     def post(self, request):
-        token = request.COOKIES.get('jwt')
-
-        # print(token)
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
             serializer = SaleMasterSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=200)
             return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
 
 
 class SaleDetailCreateView(APIView):
 
     def post(self, request):
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
             serializer = SaleDetailSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=200)
             return JsonResponse(serializer.errors, status=HTTP_400_BAD_REQUEST)
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
 
 
 class SaleMasterListView(APIView):
 
     def get(self, request):
-        token = request.COOKIES.get('jwt')
-
-        # print(token)
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
             sales = SaleMaster.objects.all()
             serializer = SaleMasterSerializer(sales, many=True)
             return Response(serializer.data, status=200)
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
 
 
 class SaleDetailListView(APIView):
 
     def get(self, request):
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
             sales = SaleDetail.objects.all()
             serializer = SaleDetailSerializer(sales, many=True)
             return Response(serializer.data, status=200)
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
 
 
 class SaleMasterDeleteView(APIView):
 
     def delete(self, request, id):
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
-            if payload:
-                sale = get_object_or_404(SaleMaster, id=id)
-                # delete purchase detail
-                detail = get_object_or_404(SaleDetail, sale_id=id)
-                detail.delete()
-                sale.delete()
-                return JsonResponse({"success": 'The record has been deleted successfully'},
-                                    status=status.HTTP_204_NO_CONTENT)
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
+            sale = get_object_or_404(SaleMaster, id=id)
+            # delete purchase detail
+            detail = get_object_or_404(SaleDetail, sale_id=id)
+            detail.delete()
+            sale.delete()
+            return JsonResponse({"success": 'The record has been deleted successfully'},
+                                status=status.HTTP_204_NO_CONTENT)
 
 
 class SaleDetailDeleteView(APIView):
 
     def delete(self, request, id):
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
-            if payload:
-                sale_deatil = get_object_or_404(SaleDetail, id=id)
-                sale_deatil.delete()
-                return JsonResponse({"success": 'The record has been deleted successfully'},
-                                    status=status.HTTP_204_NO_CONTENT)
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
+            sale_deatil = get_object_or_404(SaleDetail, id=id)
+            sale_deatil.delete()
+            return JsonResponse({"success": 'The record has been deleted successfully'},
+                                status=status.HTTP_204_NO_CONTENT)
 
 
 class SaleMasterUpdateView(APIView):
 
     def put(self, request, id):
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
-            if payload:
-                sale = get_object_or_404(SaleMaster, id=id)
-                serializer = SaleMasterSerializer(sale, data=request.data)
-                if serializer.is_valid():
-                    serializer.save()
-                    return JsonResponse(serializer.data)
-                return JsonResponse(serializer.errors,
-                                    status=status.HTTP_400_BAD_REQUEST)
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
+            sale = get_object_or_404(SaleMaster, id=id)
+            serializer = SaleMasterSerializer(sale, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data)
+            return JsonResponse(serializer.errors,
+                                status=status.HTTP_400_BAD_REQUEST)
 
 
 class SaleDetailUpdateView(APIView):
 
     def post(self, request, id):
-        token = request.COOKIES.get('jwt')
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
+            sale_details = SaleDetail.objects.all()
+            sale = sale_details.filter(sale_id=id)
+            olddata = sale
+            olddata.delete()
 
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
-            if payload:
-
-                sale_details = SaleDetail.objects.all()
-                sale = sale_details.filter(sale_id=id)
-                olddata = sale
-                olddata.delete()
-
-                serializer = SaleDetailSerializer(data=request.data, many=True)
-                if serializer.is_valid():
-                    serializer.save()
-                    return JsonResponse(serializer.data, safe=False)
-                return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
+            serializer = SaleDetailSerializer(data=request.data, many=True)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data, safe=False)
+            return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
 
 
 class StockView(APIView):
 
     def get(self, request):
-        token = request.COOKIES.get('jwt')
-
-        # print(token)
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
             cursor = connection.cursor()
             query = """select  product_id ,product_name , (SUM(purchase_qty)-SUM(sale_qty)) as stock_qty 
                             from stock group by product_id, product_name order by product_name"""
@@ -221,23 +147,14 @@ class StockView(APIView):
                 }
                 stock_arry.append(data)
             return Response(stock_arry, status=200)
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
 
 
 class LastSalePurchaseView(APIView):
 
     def get(self, request):
-        token = request.COOKIES.get('jwt')
-
-        # print(token)
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
             cursor = connection.cursor()
             query = """select * from sale_purchase_master_data_view spmdv order by date DESC """
             cursor.execute(query)
@@ -256,23 +173,13 @@ class LastSalePurchaseView(APIView):
                 }
                 sale_purchase_arry.append(data)
             return Response(sale_purchase_arry, status=200)
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
 
 
 class MonthWiseTotalSaleView(APIView):
 
     def get(self, request):
-        token = request.COOKIES.get('jwt')
-
-        # print(token)
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
+        payload = CheckAuthentication.app_authuntication(self, request);
+        if payload["id"]:
             cursor = connection.cursor()
             query = """select month(date) as months,SUM(amount) as amount 
                         from sale_purchase_master_data_view 
@@ -291,23 +198,14 @@ class MonthWiseTotalSaleView(APIView):
                 }
                 month_wise_total_sale_arry.append(data)
             return Response(month_wise_total_sale_arry, status=200)
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')
 
 
 class MonthWiseTotalPurchaseView(APIView):
 
     def get(self, request):
-        token = request.COOKIES.get('jwt')
-
-        # print(token)
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=["HS256"])
-            # print(payload)
+        payload = CheckAuthentication.app_authuntication(self, request);
+        print(payload)
+        if payload["id"]:
             cursor = connection.cursor()
             query = """select month(date) as months,SUM(amount) as amount 
                         from sale_purchase_master_data_view 
@@ -326,5 +224,3 @@ class MonthWiseTotalPurchaseView(APIView):
                 }
                 month_wise_total_sale_arry.append(data)
             return Response(month_wise_total_sale_arry, status=200)
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated')

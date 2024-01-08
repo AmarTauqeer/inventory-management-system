@@ -15,6 +15,8 @@ from django.conf import settings
 from users.utils import send_activation_email, send_reset_password_email
 from rest_framework.permissions import AllowAny
 
+from auth.check_authentication import CheckAuthentication
+
 
 # Create your views here.
 class RegisterView(APIView):
@@ -27,13 +29,13 @@ class RegisterView(APIView):
         # if serializer.is_valid():
         #     user = serializer.create(serializer.validated_data)
 
-            # Send Acctount Activation EMail
-            # uid = urlsafe_base64_encode(force_bytes(user.pk))
-            # token = default_token_generator.make_token(user)
-            # activation_link = reverse(
-            #     'activate', kwargs={'uid': uid, 'token': token})
-            # activation_url = f'{settings.SITE_DOMAIN}{activation_link}'
-            # send_activation_email(user.email, activation_url)
+        # Send Acctount Activation EMail
+        # uid = urlsafe_base64_encode(force_bytes(user.pk))
+        # token = default_token_generator.make_token(user)
+        # activation_link = reverse(
+        #     'activate', kwargs={'uid': uid, 'token': token})
+        # activation_url = f'{settings.SITE_DOMAIN}{activation_link}'
+        # send_activation_email(user.email, activation_url)
 
         return Response(serializer.data)
 
@@ -58,7 +60,7 @@ class LoginView(APIView):
 
         payload = {
             'id': user.id,
-            'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=60),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
             'iat': datetime.datetime.utcnow()
         }
 
@@ -96,7 +98,6 @@ class UserView(APIView):
 
 class LogoutView(APIView):
     def post(self, request):
-
         response = Response()
         response.set_cookie(key='jwt', httponly=True,
                             samesite='None', secure=True, max_age=1)
@@ -134,10 +135,11 @@ class ActivationConfirm(APIView):
                 return Response({'detail': 'Invalid activation link.'}, status=status.HTTP_400_BAD_REQUEST)
         except User.DoesNotExist:
             return Response({'detail': 'Invalid activation link.'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
 
 class ResetPasswordEmailView(APIView):
-    permission_classes=[AllowAny]
+    permission_classes = [AllowAny]
+
     def post(self, request):
         email = request.data.get('email')
 
@@ -162,9 +164,9 @@ class ResetPasswordView(APIView):
     permission_classes = [AllowAny]
 
 
-
 class ResetPasswordConfirmView(APIView):
-    permission_classes=[AllowAny]
+    permission_classes = [AllowAny]
+
     def post(self, request):
         uid = request.data.get('uid')
         token = request.data.get('token')

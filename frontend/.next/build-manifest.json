@@ -42,10 +42,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/purchase.js"
     ],
+    "/purchase/[id]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/purchase/[id].js"
+    ],
     "/purchase/detail/[id]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/purchase/detail/[id].js"
+    ],
+    "/purchase/supplier": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/purchase/supplier.js"
     ]
   },
   "ampFirstPages": []

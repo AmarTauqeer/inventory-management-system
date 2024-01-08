@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('category', '0004_alter_category_created_at'),
     ]
@@ -14,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='category',
             name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 6, 11, 34, 49, 170004, tzinfo=datetime.timezone.utc), null=True),
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 6, 11, 34, 49, 170004, tzinfo=datetime.timezone.utc), null=True),
         ),
     ]

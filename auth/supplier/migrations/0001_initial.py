@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -22,7 +21,9 @@ class Migration(migrations.Migration):
                 ('phone', models.CharField(blank=True, max_length=16, null=True)),
                 ('country', models.CharField(blank=True, max_length=50, null=True)),
                 ('city', models.CharField(blank=True, max_length=50, null=True)),
-                ('created_at', models.DateTimeField(default=datetime.datetime(2024, 1, 2, 15, 21, 42, 121751, tzinfo=datetime.timezone.utc), null=True)),
+                ('created_at', models.DateTimeField(
+                    default=datetime.datetime(2024, 1, 2, 15, 21, 42, 121751, tzinfo=datetime.timezone.utc),
+                    null=True)),
             ],
             options={
                 'db_table': 'supplier',

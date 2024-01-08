@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -23,7 +22,9 @@ class Migration(migrations.Migration):
                 ('purchase_rate', models.DecimalField(decimal_places=2, max_digits=12, null=True)),
                 ('sale_rate', models.DecimalField(decimal_places=2, max_digits=12, null=True)),
                 ('image', models.ImageField(blank=True, null=True, upload_to='images/')),
-                ('created_at', models.DateTimeField(default=datetime.datetime(2024, 1, 2, 15, 21, 42, 121310, tzinfo=datetime.timezone.utc), null=True)),
+                ('created_at', models.DateTimeField(
+                    default=datetime.datetime(2024, 1, 2, 15, 21, 42, 121310, tzinfo=datetime.timezone.utc),
+                    null=True)),
                 ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='category.category')),
             ],
             options={

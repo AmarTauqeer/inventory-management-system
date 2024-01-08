@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('supplier', '0002_alter_supplier_created_at'),
     ]
@@ -14,6 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='supplier',
             name='created_at',
-            field=models.DateTimeField(default=datetime.datetime(2024, 1, 4, 10, 20, 9, 818975, tzinfo=datetime.timezone.utc), null=True),
+            field=models.DateTimeField(
+                default=datetime.datetime(2024, 1, 4, 10, 20, 9, 818975, tzinfo=datetime.timezone.utc), null=True),
         ),
     ]

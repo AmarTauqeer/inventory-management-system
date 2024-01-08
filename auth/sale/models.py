@@ -14,6 +14,7 @@ class SaleMaster(models.Model):
     class Meta:
         db_table = "sale_master"
 
+
 class SaleDetail(models.Model):
     sale_id = models.ForeignKey(SaleMaster, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

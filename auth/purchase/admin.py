@@ -3,4 +3,3 @@ from .models import PurchaseMaster, PurchaseDetail
 
 admin.site.register(PurchaseMaster)
 admin.site.register(PurchaseDetail)
-

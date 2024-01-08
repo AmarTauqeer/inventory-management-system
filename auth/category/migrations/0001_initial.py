@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -18,7 +17,9 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('description', models.CharField(max_length=255, null=True)),
-                ('created_at', models.DateTimeField(default=datetime.datetime(2024, 1, 2, 15, 21, 42, 120964, tzinfo=datetime.timezone.utc), null=True)),
+                ('created_at', models.DateTimeField(
+                    default=datetime.datetime(2024, 1, 2, 15, 21, 42, 120964, tzinfo=datetime.timezone.utc),
+                    null=True)),
             ],
             options={
                 'db_table': 'category',
